@@ -33,16 +33,21 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        btnCreateAlarm=findViewById(R.id.btn_create_alarm)
-        btnCancelAlarm=findViewById(R.id.btn_cancel_alarm)
-        textAlarmTime=findViewById(R.id.card1_title_text)
-        cardListAlarm=findViewById(R.id.card2_cancel_alarm)
-        cardListAlarm.visibility= View.GONE
+        btnCreateAlarm = findViewById(R.id.btn_create_alarm)
+        btnCancelAlarm = findViewById(R.id.btn_cancel_alarm)
+        textAlarmTime = findViewById(R.id.card2_text_clock)
+        cardListAlarm = findViewById(R.id.card2_cancel_alarm)
+        cardListAlarm.visibility = View.GONE
         btnCreateAlarm.setOnClickListener {
             showTimerDialog()
         }
+        btnCancelAlarm.setOnClickListener {
+            setAlarm(-1, "Stop")
+            cardListAlarm.visibility=View.GONE
+        }
     }
-    private fun showTimerDialog(){
+
+    private fun showTimerDialog() {
         val cldr: Calendar = Calendar.getInstance()
         val hour: Int = cldr.get(Calendar.HOUR_OF_DAY)
         val minutes: Int = cldr.get(Calendar.MINUTE)
@@ -56,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         )
         picker.show()
     }
-
-
     private fun sendDialogDataToActivity(hour: Int, minute: Int) {
         val alarmCalendar = Calendar.getInstance()
         val year: Int = alarmCalendar.get(Calendar.YEAR)
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmBroadCastReceiver::class.java)
         intent.putExtra("Service1", str)
         val pendingIntent =
-            PendingIntent.getBroadcast(applicationContext, 234324243, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(applicationContext, 234324243, intent, PendingIntent.FLAG_IMMUTABLE)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         if(str == "Start") {
             if (alarmManager.canScheduleExactAlarms()){
@@ -95,4 +98,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Stop Alarm", Toast.LENGTH_SHORT).show()
         }
     }
+
 }

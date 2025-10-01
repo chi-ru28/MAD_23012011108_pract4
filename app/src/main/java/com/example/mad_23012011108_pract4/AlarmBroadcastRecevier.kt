@@ -16,7 +16,5 @@ class AlarmBroadCastReceiver : BroadcastReceiver() {
             else if(str1 == "Stop")
                 context.stopService(intentService)
         }
-        // This method is called when the BroadcastReceiver is receiving an Intent broadcast.
-        TODO("AlarmBroadCastReceiver.onReceive() is not implemented")
         }
 }
